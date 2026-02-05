@@ -10,9 +10,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableTransactionManagement //开启注解方式的事务管理
 @Slf4j
 @EnableCaching//开启缓存注解功能
-public class SkyApplication {
+public class DoupoApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SkyApplication.class, args);
+        SpringApplication.run(DoupoApplication.class, args);
         log.info("server started");
     }
 }

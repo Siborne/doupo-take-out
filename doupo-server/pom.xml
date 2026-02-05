@@ -3,23 +3,23 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>sky-take-out</artifactId>
-        <groupId>com.sky</groupId>
+        <artifactId>doupo-take-out</artifactId>
+        <groupId>com.doupo</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>sky-server</artifactId>
+    <artifactId>doupo-server</artifactId>
     <dependencies>
 
         <dependency>
-            <groupId>com.sky</groupId>
-            <artifactId>sky-common</artifactId>
+            <groupId>com.doupo</groupId>
+            <artifactId>doupo-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
         <dependency>
-            <groupId>com.sky</groupId>
-            <artifactId>sky-pojo</artifactId>
+            <groupId>com.doupo</groupId>
+            <artifactId>doupo-pojo</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
 
