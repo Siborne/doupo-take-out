@@ -8,6 +8,7 @@ import com.sky.service.SetmealService;
 import com.sky.vo.SetmealVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
@@ -23,10 +24,10 @@ import java.util.List;
 @RequestMapping("/admin/setmeal")
 @Api(tags = "套餐相关接口")
 @Slf4j
+@RequiredArgsConstructor
 public class SetmealController {
 
-    @Autowired
-    private SetmealService setmealService;
+    private final SetmealService setmealService;
 
     /**
      * 新增套餐

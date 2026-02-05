@@ -17,6 +17,7 @@ import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
 import com.sky.service.DishService;
 import com.sky.vo.DishVO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,16 +29,13 @@ import java.util.List;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class DishServiceImpl implements DishService {
 
-    @Autowired
-    private DishMapper dishMapper;
-    @Autowired
-    private DishFlavorMapper dishFlavorMapper;
-    @Autowired
-    private SetmealDishMapper setmealDishMapper;
-    @Autowired
-    private SetmealMapper setmealMapper;
+    private final DishMapper dishMapper;
+    private final DishFlavorMapper dishFlavorMapper;
+    private final SetmealDishMapper setmealDishMapper;
+    private final SetmealMapper setmealMapper;
 
     /**
      * 新增菜品，同时保存对应的口味数据

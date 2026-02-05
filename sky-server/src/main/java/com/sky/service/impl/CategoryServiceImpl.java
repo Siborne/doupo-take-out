@@ -14,6 +14,7 @@ import com.sky.mapper.DishMapper;
 import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
 import com.sky.service.CategoryService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +27,12 @@ import java.util.List;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
 
-    @Autowired
-    private CategoryMapper categoryMapper;
-    @Autowired
-    private DishMapper dishMapper;
-    @Autowired
-    private SetmealMapper setmealMapper;
+    private final CategoryMapper categoryMapper;
+    private final DishMapper dishMapper;
+    private final SetmealMapper setmealMapper;
 
     /**
      * 新增分类
