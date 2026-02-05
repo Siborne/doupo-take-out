@@ -1,5 +1,6 @@
 package com.sky.controller.admin;
 
+import com.sky.constant.RedisConstant;
 import com.sky.result.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 public class ShopController {
 
-    private static final String KEY = "SHOP_STATUS";
+    private static final String KEY = RedisConstant.REDIS_KEY_PREFIX + "SHOP_STATUS";
 
     @Autowired
     private RedisTemplate redisTemplate;
