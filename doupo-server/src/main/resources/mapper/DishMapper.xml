@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.sky.mapper.DishMapper">
+<mapper namespace="com.doupo.mapper.DishMapper">
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
         insert into dish (name, category_id, price, image, description, create_time, update_time, create_user, update_user, status)
         values
@@ -44,7 +44,7 @@
         </foreach>
     </delete>
 
-    <select id="pageQuery" resultType="com.sky.entity.Dish">
+    <select id="pageQuery" resultType="com.doupo.entity.Dish">
         select d.*, c.name as categoryName
         from dish d left outer join category c on d.category_id = c.id
         <where>

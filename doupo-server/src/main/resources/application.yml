@@ -8,20 +8,20 @@ spring:
     allow-circular-references: true
   datasource:
     druid:
-      driver-class-name: ${sky.datasource.driver-class-name}
-      url: jdbc:mysql://${sky.datasource.host}:${sky.datasource.port}/${sky.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
-      username: ${sky.datasource.username}
-      password: ${sky.datasource.password}
+      driver-class-name: ${doupo.datasource.driver-class-name}
+      url: jdbc:mysql://${doupo.datasource.host}:${doupo.datasource.port}/${doupo.datasource.database}?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+      username: ${doupo.datasource.username}
+      password: ${doupo.datasource.password}
   redis:
-    host: ${sky.redis.host}
-    port: ${sky.redis.port}
-    password: ${sky.redis.password}
-    database: ${sky.redis.database}
+    host: ${doupo.redis.host}
+    port: ${doupo.redis.port}
+    password: ${doupo.redis.password}
+    database: ${doupo.redis.database}
 
 mybatis:
   #mapper配置文件
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.sky.entity
+  type-aliases-package: com.doupo.entity
   configuration:
     #开启驼峰命名
     map-underscore-to-camel-case: true
@@ -29,12 +29,12 @@ mybatis:
 logging:
   level:
     com:
-      sky:
+      doupo:
         mapper: debug
         service: info
         controller: info
 
-sky:
+doupo:
   jwt:
     # 设置jwt签名加密时使用的秘钥
     admin-secret-key: doupo-takeout-admin-Siborne
@@ -46,10 +46,10 @@ sky:
     user-ttl: 7200000
     user-token-name: authentication
   alioss:
-    endpoint: ${sky.alioss.endpoint}
-    access-key-id: ${sky.alioss.access-key-id}
-    access-key-secret: ${sky.alioss.access-key-secret}
-    bucket-name: ${sky.alioss.bucket-name}
+    endpoint: ${doupo.alioss.endpoint}
+    access-key-id: ${doupo.alioss.access-key-id}
+    access-key-secret: ${doupo.alioss.access-key-secret}
+    bucket-name: ${doupo.alioss.bucket-name}
   wechat:
-    appid: ${sky.wechat.appid}
-    secret:  ${sky.wechat.secret}
+    appid: ${doupo.wechat.appid}
+    secret:  ${doupo.wechat.secret}
