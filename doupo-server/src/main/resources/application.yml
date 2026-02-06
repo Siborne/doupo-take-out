@@ -53,3 +53,10 @@ doupo:
   wechat:
     appid: ${doupo.wechat.appid}
     secret:  ${doupo.wechat.secret}
+    mchid: ${doupo.wechat.mchid}
+    mch-serial-no: ${doupo.wechat.mch-serial-no}
+    private-key-file-path: ${doupo.wechat.private-key-file-path}
+    api-v3-key: ${doupo.wechat.api-v3-key}
+    we-chat-pay-cert-file-path: ${doupo.wechat.we-chat-pay-cert-file-path}
+    notify-url: ${doupo.wechat.notify-url}
+    refund-notify-url: ${doupo.wechat.refund-notify-url}
