@@ -19,6 +19,7 @@ import com.doupo.vo.OrderPaymentVO;
 import com.doupo.vo.OrderStatisticsVO;
 import com.doupo.vo.OrderSubmitVO;
 import com.doupo.vo.OrderVO;
+import com.doupo.webSocket.WebSocketServer;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +45,7 @@ public class OrderServiceImpl implements OrderService {
     private final AddressBookMapper addressBookMapper;
     private final UserMapper userMapper;
     private final WeChatPayUtil weChatPayUtil;
+    private final WebSocketServer webSocketServer;
 
     @Value("${doupo.shop.address}")
     private String shopAddress;
@@ -175,6 +177,20 @@ public class OrderServiceImpl implements OrderService {
                 .build();
 
         orderMapper.update(orders);
+
+
+        //通过webSocketServer向客户端浏览器推送消息
+        //要求推送的消息格式是json类型，并且包含3个字段（type、orderId、content）
+        Map map = new HashMap();
+        map.put("type", 1);//消息类型，1表示来单提醒 2表示客户催单
+        map.put("orderId", ordersDB.getId()); //订单的id
+        map.put("content", "订单号：" + outTradeNo);//订单号
+
+        //转化为json格式
+        String json = JSON.toJSONString(map);
+        //通过WebSocket实现来单提醒，向客户端浏览器推送消息(调用WebSocketServer类中群发的方法)
+        webSocketServer.sendToAllClient(json);
+
     }
 
     /**
@@ -604,6 +620,31 @@ public class OrderServiceImpl implements OrderService {
             //配送距离超过5000米
             throw new OrderBusinessException("超出配送范围");
         }
+    }
+
+    /**
+     * 用户催单
+     *
+     * @param id
+     */
+    @Override
+    public void reminder(Long id) {
+        //根据id查询订单
+        Orders ordersDB = orderMapper.getById(id);
+
+        //订单不存在
+        if (ordersDB == null) {
+            throw new OrderBusinessException(MessageConstant.ORDER_NOT_FOUND);
+        }
+
+        //基于WebSocket实现催单
+        Map<String,Object> map = new HashMap<>();
+        map.put("type",2);// 1表示派单提醒，2表示用户催单
+        map.put("orderId",id);
+        map.put("content","订单号：" + ordersDB.getNumber());//订单号
+
+        //参数需要Json类型，所以需要机械能转换（调用WebSocketServer组件中的群发的方法）
+        webSocketServer.sendToAllClient(JSON.toJSONString(map));
     }
 
 }
