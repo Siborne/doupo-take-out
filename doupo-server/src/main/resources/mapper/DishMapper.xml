@@ -44,7 +44,7 @@
         </foreach>
     </delete>
 
-    <select id="pageQuery" resultType="com.doupo.entity.Dish">
+    <select id="pageQuery" resultType="com.doupo.vo.DishVO">
         select d.*, c.name as categoryName
         from dish d left outer join category c on d.category_id = c.id
         <where>

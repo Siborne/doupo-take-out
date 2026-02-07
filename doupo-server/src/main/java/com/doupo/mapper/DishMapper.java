@@ -1,5 +1,6 @@
 package com.doupo.mapper;
 
+import com.doupo.vo.DishVO;
 import com.github.pagehelper.Page;
 import com.doupo.annotation.AutoFill;
 import com.doupo.dto.DishPageQueryDTO;
@@ -34,7 +35,7 @@ public interface DishMapper {
      * @param dishPageQueryDTO
      * @return
      */
-    Page<Dish> pageQuery(DishPageQueryDTO dishPageQueryDTO);
+    Page<DishVO> pageQuery(DishPageQueryDTO dishPageQueryDTO);
 
     /**
      * 根据主键查询菜品
