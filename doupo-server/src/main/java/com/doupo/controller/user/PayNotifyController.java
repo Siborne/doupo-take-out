@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.doupo.properties.WeChatProperties;
 import com.doupo.service.OrderService;
 import com.wechat.pay.contrib.apache.httpclient.util.AesUtil;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.entity.ContentType;
@@ -25,6 +26,7 @@ import java.util.HashMap;
 @RestController
 @RequestMapping("/notify")
 @Slf4j
+@Api(tags = "C端-支付回调接口")
 @RequiredArgsConstructor
 public class PayNotifyController {
 

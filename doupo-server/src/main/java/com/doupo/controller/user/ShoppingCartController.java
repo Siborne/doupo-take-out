@@ -4,6 +4,7 @@ import com.doupo.dto.ShoppingCartDTO;
 import com.doupo.entity.ShoppingCart;
 import com.doupo.result.Result;
 import com.doupo.service.ShoppingCartService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/user/shoppingCart")
 @Slf4j
+@Api(tags = "C端-购物车接口")
 @RequiredArgsConstructor
 public class ShoppingCartController {
 
