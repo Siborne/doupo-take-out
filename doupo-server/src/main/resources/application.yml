@@ -60,3 +60,7 @@ doupo:
     we-chat-pay-cert-file-path: ${doupo.wechat.we-chat-pay-cert-file-path}
     notify-url: ${doupo.wechat.notify-url}
     refund-notify-url: ${doupo.wechat.refund-notify-url}
+  shop:
+    address: ${doupo.shop.address}
+  baidu:
+    ak: ${doupo.baidu.ak}
