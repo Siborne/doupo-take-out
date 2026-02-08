@@ -8,15 +8,20 @@ import com.doupo.entity.Orders;
 import com.doupo.mapper.OrderMapper;
 import com.doupo.mapper.ReportMapper;
 import com.doupo.service.ReportService;
-import com.doupo.vo.OrderReportVO;
-import com.doupo.vo.SalesTop10ReportVO;
-import com.doupo.vo.TurnoverReportVO;
-import com.doupo.vo.UserReportVO;
+import com.doupo.service.WorkspaceService;
+import com.doupo.vo.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -33,6 +38,7 @@ public class ReportServiceImpl implements ReportService {
 
     private final ReportMapper reportMapper;
     private final OrderMapper orderMapper;
+    private final WorkspaceService workspaceService;
 
     /**
      * 根据时间区间统计营业额
@@ -301,6 +307,93 @@ public class ReportServiceImpl implements ReportService {
                 .nameList(nameList)
                 .numberList(numberList)
                 .build();
+    }
+
+    /**
+     * 导出营业数据报表
+     *
+     * @param response
+     */
+    @Override
+    public void exportBusinessData(HttpServletResponse response) {
+        // 1. 确定时间范围
+        LocalDate begin = LocalDate.now().minusDays(30);
+        LocalDate end = LocalDate.now().minusDays(1);
+
+        // 2. 获取 30 天的概览数据 (用于填充表格头部)
+        BusinessDataVO allBusinessData = workspaceService.getBusinessData(
+                LocalDateTime.of(begin, LocalTime.MIN),
+                LocalDateTime.of(end, LocalTime.MAX));
+
+        // 3. 获取明细数据 (调用之前写的批量统计方法)
+        TurnoverReportVO turnoverReport = this.getTurnover(begin, end);
+        UserReportVO userReport = this.userStatistics(begin, end);
+        OrderReportVO orderReport = this.ordersStatistics(begin, end);
+
+        // 将逗号分隔的字符串转为数组
+        String[] turnoverArray = turnoverReport.getTurnoverList().split(",");
+        String[] newUsersArray = userReport.getNewUserList().split(",");
+        String[] totalOrdersArray = orderReport.getOrderCountList().split(",");
+        String[] validOrdersArray = orderReport.getValidOrderCountList().split(",");
+
+        // 4. 加载模板并填充
+        try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("template/businessDataTemplate.xlsx");
+             XSSFWorkbook excel = new XSSFWorkbook(inputStream)) {
+
+            // ======= A. 填充概览数据  =======
+            XSSFSheet sheet = excel.getSheet("Sheet1");
+
+            // 填充时间区间
+            sheet.getRow(1).getCell(1).setCellValue(begin + "至" + end);
+
+            // 第 4 行：营业额、订单完成率、新增用户数
+            XSSFRow row3 = sheet.getRow(3);
+            row3.getCell(2).setCellValue(allBusinessData.getTurnover());
+            row3.getCell(4).setCellValue(allBusinessData.getOrderCompletionRate());
+            row3.getCell(6).setCellValue(allBusinessData.getNewUsers());
+
+            // 第 5 行：有效订单、平均客单价
+            XSSFRow row4 = sheet.getRow(4);
+            row4.getCell(2).setCellValue(allBusinessData.getValidOrderCount());
+            row4.getCell(4).setCellValue(allBusinessData.getUnitPrice());
+
+            // ======= B. 填充明细数据  =======
+            for (int i = 29; i >= 0; i--) {
+                // 1. 计算当前数组下标对应的数据日期
+                LocalDate date = begin.plusDays(i);
+
+                // 2. 关键：Excel 行索引应该从 7 开始往后排 (7, 8, 9...)
+                // 当 i=29 (最新的一天) 时，我们填在第 7 行
+                // 当 i=0  (最老的一天) 时，我们填在第 36 行
+                int rowIndex = 7 + (29 - i);
+                XSSFRow row = sheet.getRow(rowIndex);
+
+                row.getCell(1).setCellValue(date.toString()); // 这里填的就是 2026-02-08
+
+                // 3. 从数组里取值 (i 对应原始数组下标)
+                double turnover = Double.parseDouble(turnoverArray[i]);
+                row.getCell(2).setCellValue(turnover);
+
+                int validOrders = Integer.parseInt(validOrdersArray[i]);
+                row.getCell(3).setCellValue(validOrders);
+
+                int totalOrders = Integer.parseInt(totalOrdersArray[i]);
+                double completionRate = (totalOrders == 0) ? 0.0 : (double) validOrders / totalOrders;
+                row.getCell(4).setCellValue(completionRate);
+
+                double unitPrice = (validOrders == 0) ? 0.0 : turnover / validOrders;
+                row.getCell(5).setCellValue(unitPrice);
+
+                row.getCell(6).setCellValue(Integer.parseInt(newUsersArray[i]));
+            }
+
+            // 5. 导出文件
+            ServletOutputStream out = response.getOutputStream();
+            excel.write(out);
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -5,6 +5,7 @@ import com.doupo.vo.SalesTop10ReportVO;
 import com.doupo.vo.TurnoverReportVO;
 import com.doupo.vo.UserReportVO;
 
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDate;
 
 public interface ReportService {
@@ -44,4 +45,11 @@ public interface ReportService {
      * @return
      */
     SalesTop10ReportVO top10(LocalDate begin, LocalDate end);
+
+    /**
+     * 导出营业数据报表
+     *
+     * @param response
+     */
+    void exportBusinessData(HttpServletResponse response);
 }
