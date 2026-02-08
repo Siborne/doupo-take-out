@@ -1,6 +1,9 @@
 package com.doupo.service.impl;
 
 import com.doupo.dto.GoodsSalesDTO;
+import com.doupo.dto.OrderStatisticsDTO;
+import com.doupo.dto.TurnoverDTO;
+import com.doupo.dto.UserStatisticsDTO;
 import com.doupo.entity.Orders;
 import com.doupo.mapper.OrderMapper;
 import com.doupo.mapper.ReportMapper;
@@ -40,7 +43,7 @@ public class ReportServiceImpl implements ReportService {
      */
     @Override
     public TurnoverReportVO getTurnover(LocalDate begin, LocalDate end) {
-        List<LocalDate> dateList = new ArrayList<>();
+        /*List<LocalDate> dateList = new ArrayList<>();
         dateList.add(begin);
 
         while (!begin.equals(end)) {
@@ -66,6 +69,36 @@ public class ReportServiceImpl implements ReportService {
                 .dateList(StringUtils.join(dateList, ","))
                 .turnoverList(StringUtils.join(turnoverList, ","))
                 .build();
+         */
+        // 1. 生成日期列表 (保证 begin 不被修改)
+        List<LocalDate> dateList = new ArrayList<>();
+        LocalDate tempDate = begin;
+        while (!tempDate.isAfter(end)) {
+            dateList.add(tempDate);
+            tempDate = tempDate.plusDays(1);
+        }
+
+        // 2. 一次性查询营业额数据
+        // 注意：传参记得转成 LocalDateTime 的起始和结束点
+        List<TurnoverDTO> turnoverStats = orderMapper.getTurnoverStatistics(
+                LocalDateTime.of(begin, LocalTime.MIN),
+                LocalDateTime.of(end, LocalTime.MAX)
+        );
+
+        // 3. 转换为 Map 结构 (日期 -> 金额)
+        Map<LocalDate, Double> turnoverMap = turnoverStats.stream()
+                .collect(Collectors.toMap(TurnoverDTO::getOrderDate, TurnoverDTO::getAmount));
+
+        // 4. 组装数据列表
+        List<Double> turnoverList = dateList.stream()
+                .map(date -> turnoverMap.getOrDefault(date, 0.0))
+                .collect(Collectors.toList());
+
+        // 5. 封装 VO 返回
+        return TurnoverReportVO.builder()
+                .dateList(StringUtils.join(dateList, ","))
+                .turnoverList(StringUtils.join(turnoverList, ","))
+                .build();
     }
 
     /**
@@ -77,7 +110,7 @@ public class ReportServiceImpl implements ReportService {
      */
     @Override
     public UserReportVO userStatistics(LocalDate begin, LocalDate end) {
-        List<LocalDate> dateList = new ArrayList<>();
+        /*List<LocalDate> dateList = new ArrayList<>();
         dateList.add(begin);
         while (!begin.equals(end)) {
             begin = begin.plusDays(1);
@@ -108,6 +141,44 @@ public class ReportServiceImpl implements ReportService {
                 .newUserList(StringUtils.join(newUserList, ","))
                 .totalUserList(StringUtils.join(totalUserList, ","))
                 .build();
+         */
+        // 1. 生成日期列表
+        List<LocalDate> dateList = new ArrayList<>();
+        LocalDate tempDate = begin;
+        while (!tempDate.isAfter(end)) {
+            dateList.add(tempDate);
+            tempDate = tempDate.plusDays(1);
+        }
+
+        // 2. 查询 begin 之前的初始总用户数
+        Integer currentTotalUser = reportMapper.getTotalUserCountBefore(LocalDateTime.of(begin, LocalTime.MIN));
+        currentTotalUser = (currentTotalUser == null) ? 0 : currentTotalUser;
+
+        // 3. 一次性查出每天的新用户增量
+        List<UserStatisticsDTO> newUserStats = reportMapper.getNewUserCountList(
+                LocalDateTime.of(begin, LocalTime.MIN),
+                LocalDateTime.of(end, LocalTime.MAX)
+        );
+        Map<LocalDate, Integer> newUserMap = newUserStats.stream()
+                .collect(Collectors.toMap(UserStatisticsDTO::getRegDate, UserStatisticsDTO::getCount));
+
+        // 4. 计算每天的数据
+        List<Integer> newUserList = new ArrayList<>();
+        List<Integer> totalUserList = new ArrayList<>();
+
+        for (LocalDate date : dateList) {
+            int todayNewUsers = newUserMap.getOrDefault(date, 0);
+            currentTotalUser += todayNewUsers; // 累加：昨天的总数 + 今天的新增 = 今天的总数
+
+            newUserList.add(todayNewUsers);
+            totalUserList.add(currentTotalUser);
+        }
+
+        return UserReportVO.builder()
+                .dateList(StringUtils.join(dateList, ","))
+                .newUserList(StringUtils.join(newUserList, ","))
+                .totalUserList(StringUtils.join(totalUserList, ","))
+                .build();
     }
 
     /**
@@ -119,7 +190,7 @@ public class ReportServiceImpl implements ReportService {
      */
     @Override
     public OrderReportVO ordersStatistics(LocalDate begin, LocalDate end) {
-        List<LocalDate> dateList = new ArrayList<>();
+        /*List<LocalDate> dateList = new ArrayList<>();
         dateList.add(begin);
         while (!begin.equals(end)) {
             begin = begin.plusDays(1);
@@ -150,6 +221,51 @@ public class ReportServiceImpl implements ReportService {
         if (totalOrderCount != 0) {
             orderCompletionRate = validOrderCount.doubleValue() / totalOrderCount;
         }
+        return OrderReportVO.builder()
+                .dateList(StringUtils.join(dateList, ","))
+                .orderCountList(StringUtils.join(orderCountList, ","))
+                .validOrderCountList(StringUtils.join(validOrderCountList, ","))
+                .totalOrderCount(totalOrderCount)
+                .validOrderCount(validOrderCount)
+                .orderCompletionRate(orderCompletionRate)
+                .build();
+         */
+        // 1. 生成日期列表 (注意：不要直接修改参数 begin，否则后面查询会出错)
+        List<LocalDate> dateList = new ArrayList<>();
+        LocalDate tempDate = begin;
+        while (!tempDate.isAfter(end)) {
+            dateList.add(tempDate);
+            tempDate = tempDate.plusDays(1);
+        }
+
+        // 2. 一次性从数据库查询统计数据 (1条SQL搞定)
+        List<OrderStatisticsDTO> statsList = reportMapper.getOrderStatistics(begin, end);
+
+        // 3. 转成 Map 结构：日期 -> DTO对象，方便 O(1) 速度查找
+        Map<LocalDate, OrderStatisticsDTO> statsMap = statsList.stream()
+                .collect(Collectors.toMap(OrderStatisticsDTO::getOrderDate, dto -> dto));
+
+        // 4. 根据日期列表抽取对应的“总订单数”和“有效订单数”
+        List<Integer> orderCountList = dateList.stream()
+                .map(date -> statsMap.containsKey(date) ? statsMap.get(date).getTotalCount() : 0)
+                .collect(Collectors.toList());
+
+        List<Integer> validOrderCountList = dateList.stream()
+                .map(date -> statsMap.containsKey(date) ? statsMap.get(date).getValidCount() : 0)
+                .collect(Collectors.toList());
+
+        // 5. 计算合计数
+        // 使用 stream 的 mapToInt 避免之前的泛型报错问题
+        int totalOrderCount = orderCountList.stream().mapToInt(Integer::intValue).sum();
+        int validOrderCount = validOrderCountList.stream().mapToInt(Integer::intValue).sum();
+
+        // 6. 计算订单完成率
+        Double orderCompletionRate = 0.0;
+        if (totalOrderCount != 0) {
+            orderCompletionRate = (double) validOrderCount / totalOrderCount;
+        }
+
+        // 7. 封装 VO 返回
         return OrderReportVO.builder()
                 .dateList(StringUtils.join(dateList, ","))
                 .orderCountList(StringUtils.join(orderCountList, ","))

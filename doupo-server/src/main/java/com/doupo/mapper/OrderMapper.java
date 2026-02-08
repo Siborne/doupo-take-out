@@ -1,6 +1,7 @@
 package com.doupo.mapper;
 
 import com.doupo.dto.OrdersPageQueryDTO;
+import com.doupo.dto.TurnoverDTO;
 import com.doupo.entity.Orders;
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Mapper;
@@ -69,4 +70,12 @@ public interface OrderMapper {
      * @return
      */
     Double sumByMap(Map<String, Object> map);
+
+    /**
+     * 统计指定时间区间内的营业额数据
+     * @param of
+     * @param of1
+     * @return
+     */
+    List<TurnoverDTO> getTurnoverStatistics(LocalDateTime begin, LocalDateTime end);
 }

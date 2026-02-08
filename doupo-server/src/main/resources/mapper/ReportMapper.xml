@@ -45,4 +45,33 @@
         limit 0, 10
     </select>
 
+    <select id="getOrderStatistics" resultType="com.doupo.dto.OrderStatisticsDTO">
+        SELECT
+        DATE(order_time) as orderDate,
+        COUNT(id) as totalCount,
+        SUM(IF(status = 5, 1, 0)) as validCount
+        FROM orders
+        <where>
+            <if test="begin != null">
+                and order_time &gt;= #{begin}
+            </if>
+            <if test="end != null">
+                and order_time &lt;= #{end}
+            </if>
+        </where>
+        GROUP BY DATE(order_time)
+        ORDER BY orderDate ASC
+    </select>
+
+    <select id="getTotalUserCountBefore" resultType="integer">
+        select count(id) from user where create_time &lt; #{time}
+    </select>
+
+    <select id="getNewUserCountList" resultType="com.doupo.dto.UserStatisticsDTO">
+        select date(create_time) as regDate, count(id) as count
+        from user
+        where create_time between #{begin} and #{end}
+        group by date(create_time)
+    </select>
+
 </mapper>

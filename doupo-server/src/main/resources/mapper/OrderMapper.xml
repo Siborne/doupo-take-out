@@ -82,4 +82,11 @@
         </where>
     </select>
 
+    <select id="getTurnoverStatistics" resultType="com.doupo.dto.TurnoverDTO">
+        select date(order_time) as orderDate, sum(amount) as amount
+        from orders
+        where status = 5
+          and order_time between #{begin} and #{end}
+        group by date(order_time)
+    </select>
 </mapper>
