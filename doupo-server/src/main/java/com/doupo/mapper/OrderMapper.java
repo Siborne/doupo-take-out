@@ -78,4 +78,11 @@ public interface OrderMapper {
      * @return
      */
     List<TurnoverDTO> getTurnoverStatistics(LocalDateTime begin, LocalDateTime end);
+
+    /**
+     * 统计有效订单总数
+     * @param map
+     * @return
+     */
+    Integer countByMap(Map map);
 }
