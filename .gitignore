@@ -9,5 +9,12 @@ application-dev.yml
 # Landing page
 landing/node_modules/
 landing/dist/
+landing/.vite/
 landing/.env.local
 *.log
+*.log.*
+
+# System files
+Thumbs.db
+.DS_Store
+.sisyphus/
