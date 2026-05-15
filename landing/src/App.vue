@@ -54,9 +54,10 @@ onMounted(() => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('visible')
+        observer.unobserve(entry.target)
       }
     })
-  }, { threshold: 0.1 })
+  }, { threshold: 0.05, rootMargin: '0px 0px -50px 0px' })
 
   document.querySelectorAll('.section-fade').forEach(el => observer.observe(el))
 })
@@ -217,7 +218,7 @@ onUnmounted(() => {
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div v-for="(feature, index) in features" :key="index"
             class="feature-card bg-white dark:bg-navy-900 p-8 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 section-fade"
-            :style="{ transitionDelay: `${index * 0.1}s` }">
+            :class="'delay-' + (index % 6 + 1)">
             <div class="w-14 h-14 bg-orange-100 dark:bg-orange-900/30 rounded-2xl flex items-center justify-center text-2xl mb-5">{{ feature.icon }}</div>
             <h3 class="text-xl font-bold text-navy-950 dark:text-white mb-3">{{ t(`features.items[${index}].title`) }}</h3>
             <p class="text-gray-500 dark:text-gray-400 leading-relaxed">{{ t(`features.items[${index}].desc`) }}</p>
@@ -239,7 +240,7 @@ onUnmounted(() => {
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           <div v-for="(icon, index) in techIcons" :key="index"
             class="tech-icon bg-white dark:bg-navy-900 p-6 rounded-2xl text-center cursor-default border border-gray-100 dark:border-gray-800 shadow-sm section-fade"
-            :style="{ transitionDelay: `${index * 0.05}s` }">
+            :class="'delay-' + (index % 6 + 1)">
             <div class="text-4xl mb-3">{{ icon }}</div>
             <div class="font-bold text-navy-950 dark:text-white mb-1">{{ t(`tech.items[${index}].name`) }}</div>
             <div class="text-sm text-gray-400 dark:text-gray-500">{{ t(`tech.items[${index}].desc`) }}</div>
@@ -285,7 +286,7 @@ onUnmounted(() => {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div v-for="(screenshot, index) in screenshots" :key="index"
             class="screenshot-item bg-white dark:bg-navy-900 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-xl transition-all duration-300 section-fade"
-            :style="{ transitionDelay: `${index * 0.08}s` }">
+            :class="'delay-' + (index % 6 + 1)">
             <div class="aspect-video bg-orange-50 dark:bg-navy-800 flex items-center justify-center overflow-hidden">
               <img :src="base + 'images/' + screenshot.path" :alt="t(`screenshots.items[${index}].name`)"
                 class="w-full h-full object-cover" loading="lazy" />
@@ -308,7 +309,7 @@ onUnmounted(() => {
         </div>
         <div class="max-w-4xl mx-auto">
           <div class="space-y-6">
-            <div v-for="step in 4" :key="step" class="flex gap-5 items-start section-fade" :style="{ transitionDelay: `${(step - 1) * 0.1}s` }">
+            <div v-for="step in 4" :key="step" class="flex gap-5 items-start section-fade" :class="'delay-' + step">
               <div class="flex-shrink-0 w-12 h-12 gradient-bg rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-orange-200/50">{{ step }}</div>
               <div class="flex-1">
                 <h3 class="text-xl font-bold text-navy-950 dark:text-white mb-2">{{ t(`quickstart.steps[${step - 1}].title`) }}</h3>
@@ -318,7 +319,7 @@ onUnmounted(() => {
               </div>
             </div>
           </div>
-          <div class="mt-12 text-center section-fade" style="transition-delay: 0.4s">
+          <div class="mt-12 text-center section-fade delay-5">
             <p class="text-gray-500 dark:text-gray-400 mb-4">{{ t('quickstart.swagger') }}</p>
             <div class="inline-block bg-white dark:bg-navy-800 px-6 py-3 rounded-full font-mono text-navy-950 dark:text-white border border-gray-200 dark:border-gray-700 shadow-sm">
               http://localhost:8080/docs.html
