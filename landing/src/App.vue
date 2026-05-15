@@ -7,6 +7,7 @@ const { t, locale } = useI18n()
 const { isDark, toggle: toggleDark } = useDarkMode()
 const mobileMenuOpen = ref(false)
 const scrolled = ref(false)
+const base = import.meta.env.BASE_URL
 
 const toggleLocale = () => {
   locale.value = locale.value === 'zh' ? 'en' : 'zh'
@@ -75,7 +76,7 @@ onUnmounted(() => {
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
           <div class="flex items-center gap-2.5">
-            <img :src="isDark ? '/logo_dark.png' : '/logo_color.png'" alt="斗破快送" class="h-9" />
+            <img :src="base + (isDark ? 'logo_dark.png' : 'logo_color.png')" alt="斗破快送" class="h-9" />
             <span class="text-lg font-bold" :class="isDark ? 'text-white' : 'text-navy-950'">斗破快送</span>
           </div>
           <div class="hidden md:flex items-center space-x-6">
@@ -286,7 +287,7 @@ onUnmounted(() => {
             class="screenshot-item bg-white dark:bg-navy-900 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-xl transition-all duration-300 section-fade"
             :style="{ transitionDelay: `${index * 0.08}s` }">
             <div class="aspect-video bg-orange-50 dark:bg-navy-800 flex items-center justify-center overflow-hidden">
-              <img :src="'/images/' + screenshot.path" :alt="t(`screenshots.items[${index}].name`)"
+              <img :src="base + 'images/' + screenshot.path" :alt="t(`screenshots.items[${index}].name`)"
                 class="w-full h-full object-cover" loading="lazy" />
             </div>
             <div class="p-4 text-center font-semibold text-navy-950 dark:text-white">{{ t(`screenshots.items[${index}].name`) }}</div>
@@ -358,7 +359,7 @@ onUnmounted(() => {
         <div class="grid md:grid-cols-4 gap-8">
           <div>
             <div class="flex items-center mb-4">
-              <img src="/logo_write.png" alt="斗破快送" class="h-10" />
+              <img :src="base + 'logo_write.png'" alt="斗破快送" class="h-10" />
             </div>
             <p class="text-sm whitespace-pre-line">{{ t('footer.desc') }}</p>
           </div>
