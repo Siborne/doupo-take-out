@@ -5,3 +5,9 @@
 *Test.java
 **/test/
 application-dev.yml
+
+# Landing page
+landing/node_modules/
+landing/dist/
+landing/.env.local
+*.log

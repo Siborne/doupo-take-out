@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #ff6b00 0%, #ff9533 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-bg {
+  background: linear-gradient(135deg, #ff6b00 0%, #ff9533 100%);
+}
+
+.section-fade {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.section-fade.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hero-gradient {
+  background: linear-gradient(135deg, #ff6b00 0%, #ff9533 50%, #ffb366 100%);
+}
+
+.hero-blob-1 {
+  background: #ff6b00;
+}
+
+.hero-blob-2 {
+  background: #ffb366;
+}
+
+.hero-blob-3 {
+  background: #ff9533;
+}
+
+.feature-card {
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(255, 107, 0, 0.15);
+}
+
+.tech-icon {
+  transition: all 0.3s ease;
+}
+
+.tech-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 10px 30px rgba(255, 107, 0, 0.2);
+}
+
+.screenshot-item {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.screenshot-item:hover {
+  transform: scale(1.05);
+  z-index: 10;
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: #ff6b00 #f1f1f1;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #ff6b00, #ff9533);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #e85d00, #cc5200);
+}

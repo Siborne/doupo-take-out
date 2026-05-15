@@ -139,11 +139,68 @@
 1. **创建 MySQL 数据库**  
    执行数据库初始化脚本，创建项目所需的数据库表结构和初始数据。
 
-2. **配置 [application-dev.yml](file://S:\Users\90438\Desktop\Sto-box\700-project\doupo-take-out\background\doupo-take-out\doupo-server\target\classes\application-dev.yml) 文件**  
-   在 `src/main/resources` 目录下创建 [application-dev.yml](file://S:\Users\90438\Desktop\Sto-box\700-project\doupo-take-out\background\doupo-take-out\doupo-server\target\classes\application-dev.yml) 配置文件，并根据实际环境填写数据库连接、Redis 配置等相关参数。
+2. **配置 application-dev.yml 文件**  
+   在 `src/main/resources` 目录下创建 `application-dev.yml` 配置文件，并根据实际环境填写数据库连接、Redis 配置等相关参数。
 
 3. **启动 Spring Boot 应用**  
-   通过 Maven 或 IDE 运行 ` SpringApplication.run()` 方法，启动后端服务。
+   通过 Maven 或 IDE 运行 `SpringApplication.run()` 方法，启动后端服务。
 
 4. **验证服务状态**  
    访问 Swagger 文档页面（如：`http://localhost:8080/docs.html`），确认接口是否正常运行。
+
+## 前端管理后台启动
+
+1. **进入前端项目目录**
+   ```bash
+   cd front/project-doupo-admin-vue-ts
+   ```
+
+2. **安装依赖**
+   ```bash
+   npm install
+   ```
+
+3. **启动开发服务器**
+   ```bash
+   npm run dev
+   ```
+
+4. **访问系统**
+   - 管理后台：`http://localhost:9528`
+   - 默认账号：admin / 123456
+
+## 宣传落地页启动
+
+项目包含一个独立的宣传落地页，位于 `landing/` 目录，使用 Vue 3 + Vite + Tailwind CSS 构建。
+
+1. **进入落地页目录**
+   ```bash
+   cd landing
+   ```
+
+2. **安装依赖**
+   ```bash
+   npm install
+   ```
+
+3. **启动开发服务器**
+   ```bash
+   npm run dev
+   ```
+
+4. **访问落地页**
+   - 本地访问：`http://localhost:5173`
+   - 自动部署：推送代码到 main 分支后，GitHub Actions 会自动构建并部署到 GitHub Pages
+
+# CI/CD 部署
+
+项目配置了 GitHub Actions 工作流，自动部署宣传落地页到 GitHub Pages：
+
+- 触发条件：推送代码到 `main` 分支且 `landing/` 目录有变更
+- 部署地址：`https://<username>.github.io/doupo-take-out/`
+- 工作流配置：`.github/workflows/deploy-landing.yml`
+
+如需手动部署：
+1. 访问 GitHub 仓库的 Actions 页面
+2. 选择 "Deploy Landing Page to GitHub Pages" 工作流
+3. 点击 "Run workflow" 手动触发部署
