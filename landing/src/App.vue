@@ -205,8 +205,10 @@ onUnmounted(() => {
       </div>
     </section>
 
+    <!-- Stacking Sections -->
+    <div class="stacking-wrapper">
     <!-- Features Section -->
-    <section id="features" class="py-28 bg-white dark:bg-navy-950 transition-colors duration-300">
+    <section id="features" class="stacking-section py-28 bg-white dark:bg-navy-950 transition-colors duration-300">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16 section-fade">
           <div class="inline-block px-4 py-2 bg-orange-100 dark:bg-orange-900/30 rounded-full text-sm text-orange-600 dark:text-orange-400 font-semibold mb-4">{{ t('features.badge') }}</div>
@@ -228,7 +230,7 @@ onUnmounted(() => {
     </section>
 
     <!-- Tech Stack Section -->
-    <section id="tech" class="py-28 bg-gradient-to-b from-white to-orange-50 dark:from-navy-950 dark:to-navy-900 transition-colors duration-300">
+    <section id="tech" class="stacking-section py-28 bg-gradient-to-b from-white to-orange-50 dark:from-navy-950 dark:to-navy-900 transition-colors duration-300">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16 section-fade">
           <div class="inline-block px-4 py-2 bg-orange-100 dark:bg-orange-900/30 rounded-full text-sm text-orange-600 dark:text-orange-400 font-semibold mb-4">{{ t('tech.badge') }}</div>
@@ -274,7 +276,7 @@ onUnmounted(() => {
     </section>
 
     <!-- Screenshots Section -->
-    <section id="screenshots" class="py-28 bg-white dark:bg-navy-950 transition-colors duration-300">
+    <section id="screenshots" class="stacking-section py-28 bg-white dark:bg-navy-950 transition-colors duration-300">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16 section-fade">
           <div class="inline-block px-4 py-2 bg-orange-100 dark:bg-orange-900/30 rounded-full text-sm text-orange-600 dark:text-orange-400 font-semibold mb-4">{{ t('screenshots.badge') }}</div>
@@ -298,7 +300,7 @@ onUnmounted(() => {
     </section>
 
     <!-- Quick Start Section -->
-    <section id="quickstart" class="py-28 bg-orange-50 dark:bg-navy-900 transition-colors duration-300">
+    <section id="quickstart" class="stacking-section py-28 bg-orange-50 dark:bg-navy-900 transition-colors duration-300">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16 section-fade">
           <div class="inline-block px-4 py-2 bg-orange-100 dark:bg-orange-900/30 rounded-full text-sm text-orange-600 dark:text-orange-400 font-semibold mb-4">{{ t('quickstart.badge') }}</div>
@@ -328,6 +330,7 @@ onUnmounted(() => {
         </div>
       </div>
     </section>
+    </div><!-- end stacking-wrapper -->
 
     <!-- CTA Section -->
     <section class="py-28 bg-navy-950 dark:bg-navy-900 relative overflow-hidden transition-colors duration-300">
