@@ -51,14 +51,13 @@ body {
 .hero-sticky {
   position: sticky;
   top: 0;
+  height: 100vh;
   z-index: 1;
 }
 
 .hero-overlap {
   position: relative;
   z-index: 2;
-  margin-top: -100vh;
-  padding-top: 100vh;
 }
 
 .hero-gradient {

@@ -147,7 +147,7 @@ onUnmounted(() => {
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-sticky relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+    <section class="hero-sticky flex items-center justify-center pt-16">
       <!-- Light mode background -->
       <div class="absolute inset-0 hero-gradient opacity-10 dark:hidden"></div>
       <div class="absolute top-20 left-10 w-80 h-80 bg-orange-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float dark:hidden"></div>
