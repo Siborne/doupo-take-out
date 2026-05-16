@@ -147,7 +147,7 @@ onUnmounted(() => {
     </nav>
 
     <!-- Hero Section -->
-    <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
+    <section class="hero-sticky relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
       <!-- Light mode background -->
       <div class="absolute inset-0 hero-gradient opacity-10 dark:hidden"></div>
       <div class="absolute top-20 left-10 w-80 h-80 bg-orange-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float dark:hidden"></div>
@@ -165,7 +165,7 @@ onUnmounted(() => {
           {{ t('hero.badge') }}
         </div>
         <h1 class="text-5xl md:text-7xl font-extrabold text-navy-950 dark:text-white mb-6 animate-slide-up leading-tight">
-          {{ t('hero.title1') }}
+          {{ t('hero.title1') }}<br class="sm:hidden" />
           <span class="gradient-text">{{ t('hero.title2') }}</span>
         </h1>
         <p class="text-xl md:text-2xl text-gray-500 dark:text-gray-400 mb-10 max-w-3xl mx-auto animate-slide-up font-light" style="animation-delay: 0.2s">
@@ -206,7 +206,7 @@ onUnmounted(() => {
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="py-28 bg-white dark:bg-navy-950 transition-colors duration-300">
+    <section id="features" class="hero-overlap py-28 bg-white dark:bg-navy-950 transition-colors duration-300">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16 section-fade">
           <div class="inline-block px-4 py-2 bg-orange-100 dark:bg-orange-900/30 rounded-full text-sm text-orange-600 dark:text-orange-400 font-semibold mb-4">{{ t('features.badge') }}</div>

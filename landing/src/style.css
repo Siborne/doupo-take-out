@@ -48,6 +48,19 @@ body {
 .section-fade.delay-5 { transition-delay: 0.5s; }
 .section-fade.delay-6 { transition-delay: 0.6s; }
 
+.hero-sticky {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.hero-overlap {
+  position: relative;
+  z-index: 2;
+  margin-top: -100vh;
+  padding-top: 100vh;
+}
+
 .hero-gradient {
   background: linear-gradient(135deg, #ff6b00 0%, #ff9533 50%, #ffb366 100%);
 }
