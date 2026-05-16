@@ -48,6 +48,10 @@ body {
 .section-fade.delay-5 { transition-delay: 0.5s; }
 .section-fade.delay-6 { transition-delay: 0.6s; }
 
+.hero-scroll-container {
+  position: relative;
+}
+
 .hero-sticky {
   position: sticky;
   top: 0;

@@ -146,6 +146,8 @@ onUnmounted(() => {
       </div>
     </nav>
 
+    <!-- Hero + Features scroll container -->
+    <div class="hero-scroll-container">
     <!-- Hero Section -->
     <section class="hero-sticky flex items-center justify-center pt-16">
       <!-- Light mode background -->
@@ -226,6 +228,7 @@ onUnmounted(() => {
         </div>
       </div>
     </section>
+    </div><!-- end hero-scroll-container -->
 
     <!-- Tech Stack Section -->
     <section id="tech" class="py-28 bg-gradient-to-b from-white to-orange-50 dark:from-navy-950 dark:to-navy-900 transition-colors duration-300">
