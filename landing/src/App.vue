@@ -170,7 +170,7 @@ onUnmounted(() => {
           {{ t('hero.title1') }}<br class="sm:hidden" />
           <span class="gradient-text">{{ t('hero.title2') }}</span>
         </h1>
-        <p class="text-xl md:text-2xl text-gray-500 dark:text-gray-400 mb-10 max-w-3xl mx-auto animate-slide-up font-light" style="animation-delay: 0.2s">
+        <p class="text-xl md:text-2xl text-gray-500 dark:text-gray-400 mb-10 max-w-3xl mx-auto animate-slide-up font-light hero-desc" style="animation-delay: 0.2s">
           {{ t('hero.desc') }}
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up" style="animation-delay: 0.4s">

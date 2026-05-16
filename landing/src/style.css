@@ -25,6 +25,10 @@ body {
   background-clip: text;
 }
 
+.hero-desc {
+  white-space: pre-line;
+}
+
 .gradient-bg {
   background: linear-gradient(135deg, #ff6b00 0%, #ff9533 100%);
 }
