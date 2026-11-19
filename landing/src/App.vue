@@ -2,6 +2,7 @@
 import { ref, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useDarkMode } from './composables/useDarkMode'
+import Icon from './components/Icon.vue'
 
 const { t, locale } = useI18n()
 const { isDark, toggle: toggleDark } = useDarkMode()
@@ -19,15 +20,41 @@ const handleScroll = () => {
 }
 
 const features = [
-  { icon: '📱' },
-  { icon: '🖥️' },
-  { icon: '📊' },
-  { icon: '⚡' },
-  { icon: '🔐' },
-  { icon: '☁️' }
+  { icon: 'device-phone' },
+  { icon: 'computer-desktop' },
+  { icon: 'chart-bar' },
+  { icon: 'bolt' },
+  { icon: 'shield-check' },
+  { icon: 'cloud' }
 ]
 
-const techIcons = ['💚', '💙', '🎨', '📈', '🍃', '🗄️', '🐬', '🔴', '🔌', '🔑', '🌐', '📱']
+const techIcons = [
+  'cube',
+  'code-bracket',
+  'rectangle-group',
+  'chart-pie',
+  'leaf',
+  'database',
+  'table-cells',
+  'bolt',
+  'arrows-right-left',
+  'key',
+  'globe-alt',
+  'device-phone'
+]
+
+const arch = [
+  { icon: 'user', key: 'user' },
+  { icon: 'computer-desktop', key: 'admin' },
+  { icon: 'server', key: 'server' },
+  { icon: 'database', key: 'data' }
+]
+
+const techGroups = [
+  { key: 'frontend', items: [0, 1, 2, 3, 11] },
+  { key: 'backend', items: [4, 5, 8, 9] },
+  { key: 'data', items: [6, 7, 10] }
+]
 
 const screenshots = [
   { path: '1.workSpace.png' },
@@ -40,6 +67,8 @@ const screenshots = [
   { path: '8.employeeManger.png' },
   { path: '9.shopStatusManger.png' }
 ]
+
+const chartBars = [40, 65, 85, 100, 70, 45]
 
 onMounted(() => {
   const savedLocale = localStorage.getItem('locale')
@@ -68,11 +97,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-white dark:bg-navy-950 transition-colors duration-300">
+  <div class="min-h-screen bg-slate-50 dark:bg-navy-950 transition-colors duration-300">
     <!-- Navigation -->
     <nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-         :class="scrolled 
-           ? 'bg-white/95 dark:bg-navy-950/95 backdrop-blur-lg shadow-sm border-b border-gray-100 dark:border-gray-800' 
+         :class="scrolled
+           ? 'bg-white/90 dark:bg-navy-950/90 backdrop-blur-lg shadow-sm border-b border-slate-200/60 dark:border-navy-800'
            : 'bg-transparent'">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
@@ -81,18 +110,16 @@ onUnmounted(() => {
             <span class="text-lg font-bold" :class="isDark ? 'text-white' : 'text-navy-950'">斗破快送</span>
           </div>
           <div class="hidden md:flex items-center space-x-6">
-            <a href="#features" class="transition-colors font-medium text-sm" :class="isDark ? 'text-gray-300 hover:text-orange-400' : 'text-gray-700 hover:text-orange-500'">{{ t('nav.features') }}</a>
-            <a href="#tech" class="transition-colors font-medium text-sm" :class="isDark ? 'text-gray-300 hover:text-orange-400' : 'text-gray-700 hover:text-orange-500'">{{ t('nav.tech') }}</a>
-            <a href="#screenshots" class="transition-colors font-medium text-sm" :class="isDark ? 'text-gray-300 hover:text-orange-400' : 'text-gray-700 hover:text-orange-500'">{{ t('nav.screenshots') }}</a>
-            <a href="#quickstart" class="transition-colors font-medium text-sm" :class="isDark ? 'text-gray-300 hover:text-orange-400' : 'text-gray-700 hover:text-orange-500'">{{ t('nav.quickstart') }}</a>
-            
-            <!-- Language Toggle -->
-            <button @click="toggleLocale" class="px-3 py-1.5 text-sm font-medium rounded-lg transition-all" :class="isDark ? 'text-gray-300 hover:text-orange-400 border border-gray-700' : 'text-gray-700 hover:text-orange-500 border border-gray-200'">
+            <a href="#features" class="transition-colors font-medium text-sm" :class="isDark ? 'text-slate-300 hover:text-primary-400' : 'text-slate-600 hover:text-primary-600'">{{ t('nav.features') }}</a>
+            <a href="#tech" class="transition-colors font-medium text-sm" :class="isDark ? 'text-slate-300 hover:text-primary-400' : 'text-slate-600 hover:text-primary-600'">{{ t('nav.tech') }}</a>
+            <a href="#screenshots" class="transition-colors font-medium text-sm" :class="isDark ? 'text-slate-300 hover:text-primary-400' : 'text-slate-600 hover:text-primary-600'">{{ t('nav.screenshots') }}</a>
+            <a href="#quickstart" class="transition-colors font-medium text-sm" :class="isDark ? 'text-slate-300 hover:text-primary-400' : 'text-slate-600 hover:text-primary-600'">{{ t('nav.quickstart') }}</a>
+
+            <button @click="toggleLocale" class="px-3 py-1.5 text-sm font-medium rounded-lg transition-all" :class="isDark ? 'text-slate-300 hover:text-primary-400 border border-navy-700' : 'text-slate-600 hover:text-primary-600 border border-slate-200'">
               {{ locale === 'zh' ? 'EN' : '中文' }}
             </button>
-            
-            <!-- Dark Mode Toggle -->
-            <button @click="toggleDark" class="p-2 transition-colors" :class="isDark ? 'text-gray-300 hover:text-orange-400' : 'text-gray-700 hover:text-orange-500'">
+
+            <button @click="toggleDark" class="p-2 transition-colors" :class="isDark ? 'text-slate-300 hover:text-primary-400' : 'text-slate-600 hover:text-primary-600'">
               <svg v-if="!isDark" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
               </svg>
@@ -103,14 +130,14 @@ onUnmounted(() => {
 
             <a href="https://github.com/Siborne/doupo-take-out" target="_blank"
               class="inline-flex items-center gap-2 px-4 py-2 rounded-full font-medium text-sm transition-colors"
-              :class="isDark 
-                ? 'bg-white text-navy-950 hover:bg-gray-100' 
+              :class="isDark
+                ? 'bg-white text-navy-950 hover:bg-slate-100'
                 : 'bg-navy-950 text-white hover:bg-navy-900'">
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+              <Icon name="github" class="w-4 h-4" />
               {{ t('nav.github') }}
             </a>
           </div>
-          <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2" :class="isDark ? 'text-gray-300' : 'text-gray-700'">
+          <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2" :class="isDark ? 'text-slate-300' : 'text-slate-700'">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path v-if="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
               <path v-else stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -118,17 +145,17 @@ onUnmounted(() => {
           </button>
         </div>
       </div>
-      <div v-if="mobileMenuOpen" class="md:hidden bg-white dark:bg-navy-950 border-t border-gray-100 dark:border-gray-800">
+      <div v-if="mobileMenuOpen" class="md:hidden bg-white dark:bg-navy-950 border-t border-slate-100 dark:border-navy-800">
         <div class="px-4 py-4 space-y-3">
-          <a href="#features" class="block text-gray-600 dark:text-gray-300 hover:text-orange-500 font-medium">{{ t('nav.features') }}</a>
-          <a href="#tech" class="block text-gray-600 dark:text-gray-300 hover:text-orange-500 font-medium">{{ t('nav.tech') }}</a>
-          <a href="#screenshots" class="block text-gray-600 dark:text-gray-300 hover:text-orange-500 font-medium">{{ t('nav.screenshots') }}</a>
-          <a href="#quickstart" class="block text-gray-600 dark:text-gray-300 hover:text-orange-500 font-medium">{{ t('nav.quickstart') }}</a>
+          <a href="#features" class="block text-slate-600 dark:text-slate-300 hover:text-primary-500 font-medium">{{ t('nav.features') }}</a>
+          <a href="#tech" class="block text-slate-600 dark:text-slate-300 hover:text-primary-500 font-medium">{{ t('nav.tech') }}</a>
+          <a href="#screenshots" class="block text-slate-600 dark:text-slate-300 hover:text-primary-500 font-medium">{{ t('nav.screenshots') }}</a>
+          <a href="#quickstart" class="block text-slate-600 dark:text-slate-300 hover:text-primary-500 font-medium">{{ t('nav.quickstart') }}</a>
           <div class="flex items-center gap-4 pt-2">
-            <button @click="toggleLocale" class="px-3 py-1.5 text-sm font-medium text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-700 rounded-lg">
+            <button @click="toggleLocale" class="px-3 py-1.5 text-sm font-medium text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-navy-700 rounded-lg">
               {{ locale === 'zh' ? 'EN' : '中文' }}
             </button>
-            <button @click="toggleDark" class="p-2 text-gray-600 dark:text-gray-300">
+            <button @click="toggleDark" class="p-2 text-slate-600 dark:text-slate-300">
               <svg v-if="!isDark" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
               </svg>
@@ -139,137 +166,216 @@ onUnmounted(() => {
           </div>
           <a href="https://github.com/Siborne/doupo-take-out" target="_blank"
             class="flex items-center justify-center gap-2 px-4 py-2 bg-navy-950 dark:bg-white text-white dark:text-navy-950 rounded-full font-medium text-sm">
-            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            <Icon name="github" class="w-4 h-4" />
             {{ t('nav.github') }}
           </a>
         </div>
       </div>
     </nav>
 
-    <!-- Hero + Features scroll container -->
-    <div class="hero-scroll-container">
     <!-- Hero Section -->
-    <section class="hero-sticky flex items-center justify-center pt-16">
-      <!-- Light mode background -->
-      <div class="absolute inset-0 hero-gradient opacity-10 dark:hidden"></div>
-      <div class="absolute top-20 left-10 w-80 h-80 bg-orange-400 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float dark:hidden"></div>
-      <div class="absolute top-40 right-10 w-80 h-80 bg-orange-200 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float-delay dark:hidden"></div>
-      <div class="absolute bottom-20 left-1/3 w-80 h-80 bg-orange-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-float dark:hidden"></div>
-      <!-- Dark mode background -->
-      <div class="absolute inset-0 bg-navy-950 dark:block hidden"></div>
-      <div class="absolute top-20 left-10 w-96 h-96 bg-orange-500/10 rounded-full filter blur-3xl animate-float hidden dark:block"></div>
-      <div class="absolute top-40 right-10 w-96 h-96 bg-orange-400/10 rounded-full filter blur-3xl animate-float-delay hidden dark:block"></div>
-      <div class="absolute bottom-20 left-1/3 w-96 h-96 bg-orange-500/5 rounded-full filter blur-3xl animate-float hidden dark:block"></div>
+    <section class="relative overflow-hidden pt-28 pb-20 md:pt-36 md:pb-28">
+      <div class="absolute inset-0 hero-gradient opacity-[0.55] dark:opacity-0"></div>
+      <div class="absolute -top-28 -right-28 w-[30rem] h-[30rem] bg-primary-300/40 dark:bg-primary-500/10 rounded-full blur-3xl"></div>
+      <div class="absolute -bottom-32 -left-24 w-[28rem] h-[28rem] bg-violet-300/40 dark:bg-violet-500/10 rounded-full blur-3xl"></div>
 
-      <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
-        <div class="inline-flex items-center gap-2 px-5 py-2.5 bg-orange-100 dark:bg-orange-900/30 rounded-full text-sm text-orange-600 dark:text-orange-400 font-semibold mb-8 animate-fade-in">
-          <span class="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></span>
-          {{ t('hero.badge') }}
-        </div>
-        <h1 class="text-5xl md:text-7xl font-extrabold text-navy-950 dark:text-white mb-6 animate-slide-up leading-tight">
-          {{ t('hero.title1') }}<br class="sm:hidden" />
-          <span class="gradient-text">{{ t('hero.title2') }}</span>
-        </h1>
-        <p class="text-xl md:text-2xl text-gray-500 dark:text-gray-400 mb-10 max-w-3xl mx-auto animate-slide-up font-light hero-desc" style="animation-delay: 0.2s">
-          {{ t('hero.desc') }}
-        </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center animate-slide-up" style="animation-delay: 0.4s">
-          <a href="#quickstart"
-            class="px-8 py-4 gradient-bg text-white rounded-full font-bold text-lg hover:shadow-lg hover:shadow-orange-300/50 transition-all duration-300 hover:-translate-y-1">
-            {{ t('hero.cta1') }}
-          </a>
-          <a href="https://github.com/Siborne/doupo-take-out" target="_blank"
-            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white dark:bg-transparent text-navy-950 dark:text-white rounded-full font-bold text-lg border-2 border-navy-950 dark:border-white hover:bg-navy-950 hover:text-white dark:hover:bg-white dark:hover:text-navy-950 transition-all duration-300">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
-            {{ t('hero.cta2') }}
-          </a>
-        </div>
-        <div class="mt-16 grid grid-cols-3 gap-8 max-w-lg mx-auto animate-fade-in" style="animation-delay: 0.6s">
-          <div>
-            <div class="text-4xl font-extrabold gradient-text">3</div>
-            <div class="text-sm text-gray-500 dark:text-gray-400 font-medium">{{ t('hero.stat1') }}</div>
+      <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-14 items-center">
+        <div class="text-center lg:text-left">
+          <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 dark:bg-primary-900/40 backdrop-blur border border-primary-200/60 dark:border-primary-800 text-primary-700 dark:text-primary-300 text-sm font-semibold mb-6 shadow-sm">
+            <span class="w-2 h-2 bg-primary-500 rounded-full animate-pulse"></span>
+            {{ t('hero.badge') }}
           </div>
-          <div>
-            <div class="text-4xl font-extrabold gradient-text">20+</div>
-            <div class="text-sm text-gray-500 dark:text-gray-400 font-medium">{{ t('hero.stat2') }}</div>
+          <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-navy-950 dark:text-white leading-tight mb-6">
+            {{ t('hero.title1') }} <span class="gradient-text">{{ t('hero.title2') }}</span>
+          </h1>
+          <p class="text-lg md:text-xl text-slate-500 dark:text-slate-400 mb-10 max-w-xl mx-auto lg:mx-0 whitespace-pre-line">
+            {{ t('hero.desc') }}
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
+            <a href="#quickstart"
+              class="inline-flex items-center justify-center gap-2 px-7 py-3.5 gradient-bg text-white rounded-full font-bold text-base shadow-lg shadow-primary-500/25 hover:shadow-xl hover:shadow-primary-500/35 hover:-translate-y-0.5 transition-all duration-300">
+              {{ t('hero.cta1') }}
+              <Icon name="arrow-right" class="w-4 h-4" />
+            </a>
+            <a href="https://github.com/Siborne/doupo-take-out" target="_blank"
+              class="inline-flex items-center justify-center gap-2 px-7 py-3.5 bg-white dark:bg-transparent text-navy-950 dark:text-white rounded-full font-bold text-base border-2 border-navy-950 dark:border-navy-700 hover:bg-navy-950 hover:text-white dark:hover:bg-white dark:hover:text-navy-950 transition-all duration-300">
+              <Icon name="github" class="w-4 h-4" />
+              {{ t('hero.cta2') }}
+            </a>
           </div>
-          <div>
-            <div class="text-4xl font-extrabold gradient-text">12</div>
-            <div class="text-sm text-gray-500 dark:text-gray-400 font-medium">{{ t('hero.stat3') }}</div>
+          <div class="grid grid-cols-3 gap-6 max-w-sm mx-auto lg:mx-0">
+            <div>
+              <div class="text-4xl font-extrabold gradient-text">3</div>
+              <div class="text-sm text-slate-500 dark:text-slate-400 font-medium">{{ t('hero.stat1') }}</div>
+            </div>
+            <div>
+              <div class="text-4xl font-extrabold gradient-text">20+</div>
+              <div class="text-sm text-slate-500 dark:text-slate-400 font-medium">{{ t('hero.stat2') }}</div>
+            </div>
+            <div>
+              <div class="text-4xl font-extrabold gradient-text">12</div>
+              <div class="text-sm text-slate-500 dark:text-slate-400 font-medium">{{ t('hero.stat3') }}</div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-        <svg class="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
+        <div class="relative mx-auto w-full max-w-xl">
+          <div class="absolute -inset-8 gradient-bg opacity-20 dark:opacity-15 blur-3xl rounded-full"></div>
+          <div class="relative rounded-2xl border border-slate-200 dark:border-navy-800 shadow-2xl shadow-primary-900/10 bg-white dark:bg-navy-900 overflow-hidden">
+            <div class="flex items-center gap-1.5 px-4 py-3 border-b border-slate-100 dark:border-navy-800 bg-slate-50 dark:bg-navy-950">
+              <span class="w-3 h-3 rounded-full bg-rose-400"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+              <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+              <div class="ml-3 flex-1 h-6 rounded-md bg-white dark:bg-navy-900 border border-slate-200 dark:border-navy-800 flex items-center px-3 text-xs text-slate-400">doupo-take-out</div>
+            </div>
+            <div class="flex">
+              <div class="hidden sm:flex w-14 flex-col items-center gap-3 py-4 border-r border-slate-100 dark:border-navy-800">
+                <span class="w-8 h-8 rounded-lg gradient-bg"></span>
+                <span class="w-6 h-6 rounded-md bg-primary-100 dark:bg-primary-900/40"></span>
+                <span class="w-6 h-6 rounded-md bg-slate-100 dark:bg-navy-800"></span>
+                <span class="w-6 h-6 rounded-md bg-slate-100 dark:bg-navy-800"></span>
+                <span class="w-6 h-6 rounded-md bg-slate-100 dark:bg-navy-800"></span>
+              </div>
+              <div class="flex-1 p-4 sm:p-5 space-y-4">
+                <div class="grid grid-cols-3 gap-3">
+                  <div class="rounded-xl border border-slate-100 dark:border-navy-800 p-3">
+                    <div class="h-2 w-12 rounded-full bg-slate-200 dark:bg-navy-800 mb-2"></div>
+                    <div class="text-lg font-bold text-slate-800 dark:text-white">1,072</div>
+                  </div>
+                  <div class="rounded-xl border border-slate-100 dark:border-navy-800 p-3">
+                    <div class="h-2 w-12 rounded-full bg-slate-200 dark:bg-navy-800 mb-2"></div>
+                    <div class="text-lg font-bold text-slate-800 dark:text-white">24</div>
+                  </div>
+                  <div class="rounded-xl border border-slate-100 dark:border-navy-800 p-3">
+                    <div class="h-2 w-12 rounded-full bg-slate-200 dark:bg-navy-800 mb-2"></div>
+                    <div class="text-lg font-bold text-slate-800 dark:text-white">98%</div>
+                  </div>
+                </div>
+                <div class="rounded-xl border border-slate-100 dark:border-navy-800 p-4">
+                  <div class="flex items-end gap-2 h-24">
+                    <span v-for="(bar, index) in chartBars" :key="index"
+                      class="flex-1 rounded-t-md transition-colors"
+                      :class="index === 3 ? 'gradient-bg' : index % 2 === 0 ? 'bg-primary-500/50' : 'bg-primary-500/25'"
+                      :style="{ height: bar + '%' }"></span>
+                  </div>
+                </div>
+                <div class="space-y-2">
+                  <div v-for="row in 3" :key="row" class="flex items-center gap-3 rounded-xl border border-slate-100 dark:border-navy-800 p-3">
+                    <span class="w-8 h-8 rounded-full shrink-0" :class="row === 1 ? 'bg-primary-100 dark:bg-primary-900/40' : row === 2 ? 'bg-violet-100 dark:bg-violet-900/40' : 'bg-sky-100 dark:bg-sky-900/40'"></span>
+                    <div class="flex-1 space-y-1.5">
+                      <div class="h-2 w-24 rounded-full bg-slate-200 dark:bg-navy-800"></div>
+                      <div class="h-2 w-16 rounded-full bg-slate-100 dark:bg-navy-800/70"></div>
+                    </div>
+                    <span class="w-2 h-2 rounded-full shrink-0" :class="row === 1 ? 'bg-emerald-500' : row === 2 ? 'bg-amber-500' : 'bg-sky-500'"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="glass-card absolute -left-4 -top-5 px-4 py-3 flex items-center gap-3 rounded-2xl shadow-xl">
+            <span class="w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/50 text-primary-600 dark:text-primary-400 flex items-center justify-center">
+              <Icon name="bolt" class="w-5 h-5" />
+            </span>
+            <div>
+              <div class="text-sm font-bold text-navy-950 dark:text-white">WebSocket</div>
+              <div class="text-xs text-slate-500 dark:text-slate-400">{{ t('features.items[3].title') }}</div>
+            </div>
+          </div>
+          <div class="glass-card absolute -right-4 bottom-10 px-4 py-3 flex items-center gap-3 rounded-2xl shadow-xl">
+            <span class="w-10 h-10 rounded-xl bg-violet-100 dark:bg-violet-900/50 text-violet-600 dark:text-violet-400 flex items-center justify-center">
+              <Icon name="shield-check" class="w-5 h-5" />
+            </span>
+            <div>
+              <div class="text-sm font-bold text-navy-950 dark:text-white">JWT</div>
+              <div class="text-xs text-slate-500 dark:text-slate-400">{{ t('features.items[4].title') }}</div>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- Features Section -->
-    <section id="features" class="hero-overlap py-28 bg-white dark:bg-navy-950 transition-colors duration-300">
+    <section id="features" class="py-24 md:py-28 bg-white dark:bg-navy-950 transition-colors duration-300">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16 section-fade">
-          <div class="inline-block px-4 py-2 bg-orange-100 dark:bg-orange-900/30 rounded-full text-sm text-orange-600 dark:text-orange-400 font-semibold mb-4">{{ t('features.badge') }}</div>
+          <div class="inline-block px-4 py-2 bg-primary-50 dark:bg-primary-900/40 rounded-full text-sm text-primary-600 dark:text-primary-300 font-semibold mb-4 border border-primary-100 dark:border-primary-800">{{ t('features.badge') }}</div>
           <h2 class="text-4xl md:text-5xl font-extrabold text-navy-950 dark:text-white mb-4">{{ t('features.title') }}</h2>
-          <p class="text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto font-light">
+          <p class="text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto font-light">
             {{ t('features.desc') }}
           </p>
         </div>
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div v-for="(feature, index) in features" :key="index"
-            class="feature-card bg-white dark:bg-navy-900 p-8 rounded-3xl shadow-sm border border-gray-100 dark:border-gray-800 section-fade"
+            class="feature-card bg-white dark:bg-navy-900 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-navy-800 section-fade"
             :class="'delay-' + (index % 6 + 1)">
-            <div class="w-14 h-14 bg-orange-100 dark:bg-orange-900/30 rounded-2xl flex items-center justify-center text-2xl mb-5">{{ feature.icon }}</div>
+            <div class="w-14 h-14 bg-primary-50 dark:bg-primary-900/40 rounded-2xl flex items-center justify-center mb-5 text-primary-600 dark:text-primary-400 border border-primary-100 dark:border-primary-800">
+              <Icon :name="feature.icon" class="w-7 h-7" />
+            </div>
             <h3 class="text-xl font-bold text-navy-950 dark:text-white mb-3">{{ t(`features.items[${index}].title`) }}</h3>
-            <p class="text-gray-500 dark:text-gray-400 leading-relaxed">{{ t(`features.items[${index}].desc`) }}</p>
+            <p class="text-slate-500 dark:text-slate-400 leading-relaxed">{{ t(`features.items[${index}].desc`) }}</p>
           </div>
         </div>
       </div>
     </section>
-    </div><!-- end hero-scroll-container -->
 
     <!-- Tech Stack Section -->
-    <section id="tech" class="py-28 bg-gradient-to-b from-white to-orange-50 dark:from-navy-950 dark:to-navy-900 transition-colors duration-300">
+    <section id="tech" class="py-24 md:py-28 bg-gradient-to-b from-slate-50 to-white dark:from-navy-950 dark:to-navy-900 transition-colors duration-300">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16 section-fade">
-          <div class="inline-block px-4 py-2 bg-orange-100 dark:bg-orange-900/30 rounded-full text-sm text-orange-600 dark:text-orange-400 font-semibold mb-4">{{ t('tech.badge') }}</div>
+          <div class="inline-block px-4 py-2 bg-primary-50 dark:bg-primary-900/40 rounded-full text-sm text-primary-600 dark:text-primary-300 font-semibold mb-4 border border-primary-100 dark:border-primary-800">{{ t('tech.badge') }}</div>
           <h2 class="text-4xl md:text-5xl font-extrabold text-navy-950 dark:text-white mb-4">{{ t('tech.title') }}</h2>
-          <p class="text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto font-light">
+          <p class="text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto font-light">
             {{ t('tech.desc') }}
           </p>
         </div>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-          <div v-for="(icon, index) in techIcons" :key="index"
-            class="tech-icon bg-white dark:bg-navy-900 p-6 rounded-2xl text-center cursor-default border border-gray-100 dark:border-gray-800 shadow-sm section-fade"
-            :class="'delay-' + (index % 6 + 1)">
-            <div class="text-4xl mb-3">{{ icon }}</div>
-            <div class="font-bold text-navy-950 dark:text-white mb-1">{{ t(`tech.items[${index}].name`) }}</div>
-            <div class="text-sm text-gray-400 dark:text-gray-500">{{ t(`tech.items[${index}].desc`) }}</div>
+        <!-- Architecture Flow -->
+        <div class="mb-16 section-fade">
+          <div class="hidden lg:flex items-stretch">
+            <template v-for="(item, index) in arch" :key="item.key">
+              <div class="flex-1 rounded-2xl border border-slate-200 dark:border-navy-800 bg-white dark:bg-navy-900 p-5 text-center shadow-sm">
+                <div class="w-12 h-12 mx-auto mb-3 rounded-xl bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400 flex items-center justify-center border border-primary-100 dark:border-primary-800">
+                  <Icon :name="item.icon" class="w-6 h-6" />
+                </div>
+                <div class="font-bold text-navy-950 dark:text-white">{{ t(`tech.arch.${item.key}`) }}</div>
+                <div class="text-sm text-slate-500 dark:text-slate-400 mt-1">{{ t(`tech.arch.${item.key}Desc`) }}</div>
+              </div>
+              <div v-if="index < arch.length - 1" class="flex items-center px-3 text-primary-400">
+                <Icon name="arrow-right" class="w-5 h-5" />
+              </div>
+            </template>
+          </div>
+          <div class="grid sm:grid-cols-2 gap-4 lg:hidden">
+            <div v-for="item in arch" :key="item.key" class="rounded-2xl border border-slate-200 dark:border-navy-800 bg-white dark:bg-navy-900 p-5 flex items-center gap-4 shadow-sm">
+              <span class="w-11 h-11 rounded-xl bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400 flex items-center justify-center shrink-0 border border-primary-100 dark:border-primary-800">
+                <Icon :name="item.icon" class="w-6 h-6" />
+              </span>
+              <div>
+                <div class="font-bold text-navy-950 dark:text-white">{{ t(`tech.arch.${item.key}`) }}</div>
+                <div class="text-sm text-slate-500 dark:text-slate-400">{{ t(`tech.arch.${item.key}Desc`) }}</div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="mt-16 p-8 bg-navy-950 dark:bg-navy-900 rounded-3xl section-fade">
-          <div class="grid md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div class="text-3xl mb-2">👤</div>
-              <div class="font-bold text-white">{{ t('tech.arch.user') }}</div>
-              <div class="text-sm text-orange-300">{{ t('tech.arch.userDesc') }}</div>
+
+        <!-- Grouped Tech Stack -->
+        <div class="space-y-10">
+          <div v-for="group in techGroups" :key="group.key" class="section-fade">
+            <div class="flex items-center gap-3 mb-5">
+              <span class="text-sm font-bold tracking-widest uppercase text-primary-600 dark:text-primary-400">{{ t(`tech.groups.${group.key}`) }}</span>
+              <div class="h-px flex-1 bg-slate-200 dark:bg-navy-800"></div>
+              <span class="text-xs font-medium text-slate-400 dark:text-slate-500">{{ group.items.length }}</span>
             </div>
-            <div>
-              <div class="text-3xl mb-2">🖥️</div>
-              <div class="font-bold text-white">{{ t('tech.arch.admin') }}</div>
-              <div class="text-sm text-orange-300">{{ t('tech.arch.adminDesc') }}</div>
-            </div>
-            <div>
-              <div class="text-3xl mb-2">⚙️</div>
-              <div class="font-bold text-white">{{ t('tech.arch.server') }}</div>
-              <div class="text-sm text-orange-300">{{ t('tech.arch.serverDesc') }}</div>
-            </div>
-            <div>
-              <div class="text-3xl mb-2">🗄️</div>
-              <div class="font-bold text-white">{{ t('tech.arch.data') }}</div>
-              <div class="text-sm text-orange-300">{{ t('tech.arch.dataDesc') }}</div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div v-for="index in group.items" :key="index"
+                class="tech-icon bg-white dark:bg-navy-900 rounded-2xl p-4 flex items-center gap-3 border border-slate-100 dark:border-navy-800 shadow-sm">
+                <span class="w-10 h-10 rounded-xl bg-primary-50 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400 flex items-center justify-center shrink-0">
+                  <Icon :name="techIcons[index]" class="w-5 h-5" />
+                </span>
+                <div class="min-w-0">
+                  <div class="font-bold text-sm text-navy-950 dark:text-white">{{ t(`tech.items[${index}].name`) }}</div>
+                  <div class="text-xs text-slate-400 dark:text-slate-500 truncate">{{ t(`tech.items[${index}].desc`) }}</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -277,20 +383,20 @@ onUnmounted(() => {
     </section>
 
     <!-- Screenshots Section -->
-    <section id="screenshots" class="py-28 bg-white dark:bg-navy-950 transition-colors duration-300">
+    <section id="screenshots" class="py-24 md:py-28 bg-white dark:bg-navy-950 transition-colors duration-300">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16 section-fade">
-          <div class="inline-block px-4 py-2 bg-orange-100 dark:bg-orange-900/30 rounded-full text-sm text-orange-600 dark:text-orange-400 font-semibold mb-4">{{ t('screenshots.badge') }}</div>
+          <div class="inline-block px-4 py-2 bg-primary-50 dark:bg-primary-900/40 rounded-full text-sm text-primary-600 dark:text-primary-300 font-semibold mb-4 border border-primary-100 dark:border-primary-800">{{ t('screenshots.badge') }}</div>
           <h2 class="text-4xl md:text-5xl font-extrabold text-navy-950 dark:text-white mb-4">{{ t('screenshots.title') }}</h2>
-          <p class="text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto font-light">
+          <p class="text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto font-light">
             {{ t('screenshots.desc') }}
           </p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div v-for="(screenshot, index) in screenshots" :key="index"
-            class="screenshot-item bg-white dark:bg-navy-900 rounded-2xl overflow-hidden shadow-sm border border-gray-100 dark:border-gray-800 hover:shadow-xl transition-all duration-300 section-fade"
+            class="screenshot-item bg-white dark:bg-navy-900 rounded-2xl overflow-hidden shadow-sm border border-slate-100 dark:border-navy-800 hover:shadow-xl transition-all duration-300 section-fade"
             :class="'delay-' + (index % 6 + 1)">
-            <div class="aspect-video bg-orange-50 dark:bg-navy-800 flex items-center justify-center overflow-hidden">
+            <div class="aspect-video bg-slate-50 dark:bg-navy-800 flex items-center justify-center overflow-hidden">
               <img :src="base + 'images/' + screenshot.path" :alt="t(`screenshots.items[${index}].name`)"
                 class="w-full h-full object-cover" loading="lazy" />
             </div>
@@ -301,30 +407,40 @@ onUnmounted(() => {
     </section>
 
     <!-- Quick Start Section -->
-    <section id="quickstart" class="py-28 bg-orange-50 dark:bg-navy-900 transition-colors duration-300">
+    <section id="quickstart" class="py-24 md:py-28 bg-slate-50 dark:bg-navy-900 transition-colors duration-300">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16 section-fade">
-          <div class="inline-block px-4 py-2 bg-orange-100 dark:bg-orange-900/30 rounded-full text-sm text-orange-600 dark:text-orange-400 font-semibold mb-4">{{ t('quickstart.badge') }}</div>
+          <div class="inline-block px-4 py-2 bg-primary-50 dark:bg-primary-900/40 rounded-full text-sm text-primary-600 dark:text-primary-300 font-semibold mb-4 border border-primary-100 dark:border-primary-800">{{ t('quickstart.badge') }}</div>
           <h2 class="text-4xl md:text-5xl font-extrabold text-navy-950 dark:text-white mb-4">{{ t('quickstart.title') }}</h2>
-          <p class="text-xl text-gray-500 dark:text-gray-400 max-w-2xl mx-auto font-light">
+          <p class="text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto font-light">
             {{ t('quickstart.desc') }}
           </p>
         </div>
         <div class="max-w-4xl mx-auto">
-          <div class="space-y-6">
-            <div v-for="step in 4" :key="step" class="flex gap-5 items-start section-fade" :class="'delay-' + step">
-              <div class="flex-shrink-0 w-12 h-12 gradient-bg rounded-2xl flex items-center justify-center text-white font-bold text-lg shadow-lg shadow-orange-200/50">{{ step }}</div>
-              <div class="flex-1">
-                <h3 class="text-xl font-bold text-navy-950 dark:text-white mb-2">{{ t(`quickstart.steps[${step - 1}].title`) }}</h3>
-                <div class="bg-navy-950 dark:bg-navy-800 text-orange-300 p-4 rounded-2xl font-mono text-sm overflow-x-auto whitespace-pre-line">
-                  {{ t(`quickstart.steps[${step - 1}].code`) }}
+          <div class="overflow-hidden rounded-2xl border border-navy-800 bg-navy-950 shadow-2xl shadow-navy-950/30">
+            <div class="flex items-center gap-1.5 px-4 py-3 border-b border-navy-800 bg-navy-900/80">
+              <span class="w-3 h-3 rounded-full bg-rose-400"></span>
+              <span class="w-3 h-3 rounded-full bg-amber-400"></span>
+              <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+              <span class="ml-3 text-sm font-medium text-slate-400">{{ t('quickstart.terminal') }}</span>
+            </div>
+            <div class="divide-y divide-navy-800">
+              <div v-for="step in 4" :key="step" class="flex gap-4 p-5 sm:p-6 section-fade" :class="'delay-' + step">
+                <div class="flex-shrink-0 w-8 h-8 gradient-bg rounded-lg flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-primary-500/25">{{ step }}</div>
+                <div class="flex-1 min-w-0">
+                  <div class="flex items-center gap-2 mb-2.5">
+                    <span class="font-mono text-xs text-primary-400">$</span>
+                    <h3 class="text-white font-semibold">{{ t(`quickstart.steps[${step - 1}].title`) }}</h3>
+                  </div>
+                  <pre class="font-mono text-sm text-slate-300 whitespace-pre-line overflow-x-auto">{{ t(`quickstart.steps[${step - 1}].code`) }}</pre>
                 </div>
               </div>
             </div>
           </div>
-          <div class="mt-12 text-center section-fade delay-5">
-            <p class="text-gray-500 dark:text-gray-400 mb-4">{{ t('quickstart.swagger') }}</p>
-            <div class="inline-block bg-white dark:bg-navy-800 px-6 py-3 rounded-full font-mono text-navy-950 dark:text-white border border-gray-200 dark:border-gray-700 shadow-sm">
+          <div class="mt-10 text-center section-fade delay-5">
+            <p class="text-slate-500 dark:text-slate-400 mb-4">{{ t('quickstart.swagger') }}</p>
+            <div class="inline-flex items-center gap-2 bg-white dark:bg-navy-800 px-6 py-3 rounded-full font-mono text-navy-950 dark:text-white border border-slate-200 dark:border-navy-700 shadow-sm">
+              <Icon name="globe-alt" class="w-4 h-4 text-primary-500" />
               http://localhost:8080/docs.html
             </div>
           </div>
@@ -333,20 +449,20 @@ onUnmounted(() => {
     </section>
 
     <!-- CTA Section -->
-    <section class="py-28 bg-navy-950 dark:bg-navy-900 relative overflow-hidden transition-colors duration-300">
-      <div class="absolute inset-0 opacity-20">
-        <div class="absolute top-0 left-0 w-96 h-96 bg-orange-500 rounded-full filter blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
-        <div class="absolute bottom-0 right-0 w-96 h-96 bg-orange-300 rounded-full filter blur-3xl translate-x-1/2 translate-y-1/2"></div>
+    <section class="py-24 md:py-28 bg-navy-950 dark:bg-navy-900 relative overflow-hidden transition-colors duration-300">
+      <div class="absolute inset-0 opacity-25">
+        <div class="absolute top-0 left-0 w-96 h-96 bg-primary-500 rounded-full filter blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+        <div class="absolute bottom-0 right-0 w-96 h-96 bg-violet-500 rounded-full filter blur-3xl translate-x-1/2 translate-y-1/2"></div>
       </div>
       <div class="max-w-4xl mx-auto px-4 text-center relative z-10 section-fade">
         <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6">{{ t('cta.title') }}</h2>
-        <p class="text-xl mb-10 text-gray-300 font-light">
+        <p class="text-xl mb-10 text-slate-300 font-light">
           {{ t('cta.desc') }}
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
           <a href="https://github.com/Siborne/doupo-take-out" target="_blank"
-            class="inline-flex items-center justify-center gap-2 px-8 py-4 gradient-bg text-white rounded-full font-bold text-lg hover:shadow-lg hover:shadow-orange-400/30 transition-all duration-300">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+            class="inline-flex items-center justify-center gap-2 px-8 py-4 gradient-bg text-white rounded-full font-bold text-lg shadow-lg shadow-primary-500/30 hover:shadow-xl hover:shadow-primary-500/40 transition-all duration-300">
+            <Icon name="github" class="w-5 h-5" />
             {{ t('cta.github') }}
           </a>
           <a href="#quickstart"
@@ -358,7 +474,7 @@ onUnmounted(() => {
     </section>
 
     <!-- Footer -->
-    <footer class="bg-navy-950 text-gray-400 py-12 border-t border-gray-800 transition-colors duration-300">
+    <footer class="bg-navy-950 text-slate-400 py-12 border-t border-navy-800 transition-colors duration-300">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid md:grid-cols-4 gap-8">
           <div>
@@ -371,7 +487,7 @@ onUnmounted(() => {
             <h4 class="text-white font-semibold mb-4">{{ t('footer.features') }}</h4>
             <ul class="space-y-2.5 text-sm">
               <li v-for="(item, index) in 3" :key="index">
-                <a href="#features" class="hover:text-orange-400 transition-colors">{{ t(`footer.items.features[${index}]`) }}</a>
+                <a href="#features" class="hover:text-primary-400 transition-colors">{{ t(`footer.items.features[${index}]`) }}</a>
               </li>
             </ul>
           </div>
@@ -379,7 +495,7 @@ onUnmounted(() => {
             <h4 class="text-white font-semibold mb-4">{{ t('footer.tech') }}</h4>
             <ul class="space-y-2.5 text-sm">
               <li v-for="(item, index) in 3" :key="index">
-                <a href="#tech" class="hover:text-orange-400 transition-colors">{{ t(`footer.items.tech[${index}]`) }}</a>
+                <a href="#tech" class="hover:text-primary-400 transition-colors">{{ t(`footer.items.tech[${index}]`) }}</a>
               </li>
             </ul>
           </div>
@@ -387,18 +503,22 @@ onUnmounted(() => {
             <h4 class="text-white font-semibold mb-4">{{ t('footer.resources') }}</h4>
             <ul class="space-y-2.5 text-sm">
               <li v-for="(item, index) in 3" :key="index">
-                <a :href="index === 0 ? 'https://github.com/Siborne/doupo-take-out' : index === 1 ? '#quickstart' : '#screenshots'" 
+                <a :href="index === 0 ? 'https://github.com/Siborne/doupo-take-out' : index === 1 ? '#quickstart' : '#screenshots'"
                    :target="index === 0 ? '_blank' : undefined"
-                   class="inline-flex items-center gap-1.5 hover:text-orange-400 transition-colors">
-                  <svg v-if="index === 0" class="w-4 h-4" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+                   class="inline-flex items-center gap-1.5 hover:text-primary-400 transition-colors">
+                  <Icon v-if="index === 0" name="github" class="w-4 h-4" />
                   {{ t(`footer.items.resources[${index}]`) }}
                 </a>
               </li>
             </ul>
           </div>
         </div>
-        <div class="border-t border-gray-800 mt-8 pt-8 text-center text-sm">
-          <p>© 2024 斗破快送. Built with ❤️</p>
+        <div class="border-t border-navy-800 mt-8 pt-8 text-center text-sm">
+          <p>© 2024 斗破快送 · Built with
+            <svg class="inline-block w-4 h-4 text-primary-400 align-text-bottom" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
+            </svg>
+          </p>
         </div>
       </div>
     </footer>

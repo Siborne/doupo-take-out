@@ -14,7 +14,7 @@ const messages = {
       title1: '智能餐饮',
       title2: '外卖系统',
       desc: '一站式餐饮外卖解决方案\n微信小程序点餐 · 后台管理 · 实时数据统计',
-      cta1: '快速开始 →',
+      cta1: '快速开始',
       cta2: '查看源码',
       stat1: '核心端',
       stat2: '功能模块',
@@ -60,6 +60,11 @@ const messages = {
         serverDesc: 'Spring Boot',
         data: '数据层',
         dataDesc: 'MySQL + Redis'
+      },
+      groups: {
+        frontend: '前端',
+        backend: '后端',
+        data: '数据与基础设施'
       }
     },
     screenshots: {
@@ -88,7 +93,8 @@ const messages = {
         { title: '启动后端服务', code: '# 进入 background/doupo-take-out 目录\nmvn spring-boot:run' },
         { title: '启动前端项目', code: '# 进入 front/project-doupo-admin-vue-ts 目录\nnpm install\nnpm run dev' }
       ],
-      swagger: '访问 Swagger 文档验证服务状态'
+      swagger: '访问 Swagger 文档验证服务状态',
+      terminal: '快速开始'
     },
     cta: {
       title: '开始使用斗破快送',
@@ -121,7 +127,7 @@ const messages = {
       title1: 'Smart Food',
       title2: 'Delivery System',
       desc: 'All-in-one food delivery solution\nWeChat Mini Program · Admin Panel · Real-time Analytics',
-      cta1: 'Get Started →',
+      cta1: 'Get Started',
       cta2: 'View Source',
       stat1: 'Platforms',
       stat2: 'Features',
@@ -167,6 +173,11 @@ const messages = {
         serverDesc: 'Spring Boot',
         data: 'Database',
         dataDesc: 'MySQL + Redis'
+      },
+      groups: {
+        frontend: 'Frontend',
+        backend: 'Backend',
+        data: 'Data & Infrastructure'
       }
     },
     screenshots: {
@@ -195,7 +206,8 @@ const messages = {
         { title: 'Start Backend', code: '# Navigate to background/doupo-take-out\nmvn spring-boot:run' },
         { title: 'Start Frontend', code: '# Navigate to front/project-doupo-admin-vue-ts\nnpm install\nnpm run dev' }
       ],
-      swagger: 'Visit Swagger docs to verify service status'
+      swagger: 'Visit Swagger docs to verify service status',
+      terminal: 'Quick Start'
     },
     cta: {
       title: 'Start Using Doupo Express',
